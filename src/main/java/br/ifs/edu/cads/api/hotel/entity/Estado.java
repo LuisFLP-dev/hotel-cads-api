@@ -9,23 +9,23 @@ public class Estado {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long idEstado;
 
     @Column(name = "uf", nullable = false, length = 255)
     private String uf;
 
 
-    public Estado(long id, String uf) {
-        this.id = id;
+    public Estado(long idEstado, String uf) {
+        this.idEstado = idEstado;
         this.uf = uf;
     }
 
-    public long getIdEstado() {
-        return id;
+    public long getidEstadoEstado() {
+        return idEstado;
     }
 
-    public void setId(long idEstado) {
-        this.id = id;
+    public void setidEstado(long idEstadoEstado) {
+        this.idEstado = idEstado;
     }
 
     public String getUf() {
@@ -41,7 +41,7 @@ public class Estado {
         final int prime = 31;
         int result = 1;
 
-        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((idEstado == null) ? 0 : idEstado.hashCode());
         return result;
     }
 
@@ -56,10 +56,10 @@ public class Estado {
             return false;
         Estado other = (Estado) obj;
 
-        if (id == null) {
-            if (other.id != null)
+        if (idEstado == null) {
+            if (other.idEstado != null)
                 return false;
-        } else if (!id.equals(other.id))
+        } else if (!idEstado.equals(other.idEstado))
             return false;
         return true;
     }
