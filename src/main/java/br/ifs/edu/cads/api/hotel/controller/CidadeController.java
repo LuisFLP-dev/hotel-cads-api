@@ -28,8 +28,10 @@ public class CidadeController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<Cidade>> listAll() {
-        List<Cidade> cidades = cidadeService.listAll();
+    public ResponseEntity<List<CidadeDto>> getAll() {
+        List<CidadeDto> cidades = cidadeService.listAll().stream().map(c -> new CidadeDto(
+                c.getIdCidade(), c.getNomeCidade(), c.getEstado().getidEstado()
+        )).toList();
         return ResponseEntity.ok(cidades);
     }
 
