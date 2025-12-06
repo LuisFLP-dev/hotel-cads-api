@@ -11,7 +11,7 @@ public class Estado {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idEstado;
 
-    @Column(name = "uf", nullable = false, length = 255)
+    @Column(name = "uf", nullable = false, length = 2)
     private String uf;
 
 
@@ -20,7 +20,7 @@ public class Estado {
         this.uf = uf;
     }
 
-    public long getidEstadoEstado() {
+    public long getidEstado() {
         return idEstado;
     }
 

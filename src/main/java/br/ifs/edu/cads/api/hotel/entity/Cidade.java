@@ -23,6 +23,9 @@ public class Cidade {
         this.estado = estado;
     }
 
+    public Cidade() {
+    }
+
     public Long getIdCidade() {
         return idCidade;
     }
