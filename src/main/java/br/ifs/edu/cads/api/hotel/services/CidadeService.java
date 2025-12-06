@@ -5,6 +5,7 @@ import br.ifs.edu.cads.api.hotel.entity.Cidade;
 import br.ifs.edu.cads.api.hotel.entity.Estado;
 import br.ifs.edu.cads.api.hotel.repository.CidadeRepository;
 import br.ifs.edu.cads.api.hotel.repository.EstadoRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,9 +17,8 @@ public class CidadeService {
     private final CidadeRepository cidadeRepository;
     private final EstadoRepository estadoRepository = null;
 
-    public CidadeService(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
+    public CidadeService(CidadeRepository cidadeRepository) {
         this.cidadeRepository = cidadeRepository;
-        this.estadoRepository = estadoRepository;
     }
 
     private CidadeDto toDto(Cidade cidade) {
@@ -32,24 +32,39 @@ public class CidadeService {
 
     }
 
-    public CidadeDto findById(Long id){
+    public CidadeDto findById(Long id) {
         Optional<Cidade> cidade = cidadeRepository.findById(id);
 
         CidadeDto cidadeDto = null;
-        if (cidade.get() != null){
-            cidadeDto = toDto(cidade.get());
-        }
+        cidade.get();
+        cidadeDto = toDto(cidade.get());
 
         return cidadeDto;
     }
 
-    public List<Cidade> listAll(){return cidadeRepository.findAll();}
+    public List<Cidade> listAll() {
+        return cidadeRepository.findAll();
+    }
 
-    private Cidade fromDto(CidadeDto cidadeDto){
+    private Cidade fromDto(CidadeDto cidadeDto) {
         Cidade cidade = new Cidade();
         cidade.setIdCidade(cidadeDto.idCidade());
         cidade.setNomeCidade(cidadeDto.nomeCidade());
         return cidade;
 
+    }
+
+    @Transactional
+    public CidadeDto save(CidadeDto cidadeDto) {
+        Cidade cidade = fromDto(cidadeDto);
+        Cidade SaveCidade = cidadeRepository.save(cidade);
+        return toDto(SaveCidade);
+
+    }
+
+    @Transactional
+    public Cidade updateCidade(Long id, Cidade cidade) {
+        cidade.setIdCidade(id);
+        return cidadeRepository.save(cidade);
     }
 }

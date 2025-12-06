@@ -15,10 +15,11 @@ public class Estado {
     private String uf;
 
 
-    public Estado(long idEstado, String uf) {
-        this.idEstado = idEstado;
+    public Estado(String uf) {
         this.uf = uf;
     }
+
+    public Estado(){}
 
     public long getidEstado() {
         return idEstado;
