@@ -42,6 +42,15 @@ public class CidadeService {
         return cidadeDto;
     }
 
+    public CidadeDto delete(Long id) {
+        Optional<Cidade> cidadeDeletada = cidadeRepository.findById(id);
+        CidadeDto cidadeDto = null;
+        cidadeDeletada.get();
+        cidadeDto = toDto(cidadeDeletada.get());
+        cidadeRepository.deleteById(id);
+        return cidadeDto;
+    }
+
     public List<Cidade> listAll() {
         return cidadeRepository.findAll();
     }

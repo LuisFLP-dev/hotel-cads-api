@@ -3,9 +3,11 @@ package br.ifs.edu.cads.api.hotel.controller;
 import br.ifs.edu.cads.api.hotel.dto.CidadeDto;
 import br.ifs.edu.cads.api.hotel.entity.Cidade;
 import br.ifs.edu.cads.api.hotel.services.CidadeService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,6 +25,11 @@ public class CidadeController {
         CidadeDto cidadeDto = cidadeService.findById(id);
         return ResponseEntity.ok(cidadeDto);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<CidadeDto> delete(@PathVariable Long id) {
+        cidadeService.delete(id);
+        return ResponseEntity.noContent().build();
+    }
 
     @GetMapping("/")
     public ResponseEntity<List<CidadeDto>> getAll() {
@@ -33,7 +40,17 @@ public class CidadeController {
     }
 
     @PostMapping
-    public ResponseEntity<CidadeDto> create(@Valid )
+    public ResponseEntity<CidadeDto> create(@Valid @RequestBody CidadeDto cidadeDto) {
+        CidadeDto createdCidade = cidadeService.save(cidadeDto);
+        URI location = URI.create("/api/cidades/" + createdCidade.idCidade());
+        return ResponseEntity.created(location).body(createdCidade);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Cidade> update(@PathVariable Long id, @RequestBody Cidade cidade) {
+        Cidade updatedCidade = cidadeService.updateCidade(id, cidade);
+        return ResponseEntity.ok(updatedCidade);
+    }
 
 
 }
