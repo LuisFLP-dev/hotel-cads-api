@@ -4,10 +4,7 @@ import br.ifs.edu.cads.api.hotel.dto.CidadeDto;
 import br.ifs.edu.cads.api.hotel.entity.Cidade;
 import br.ifs.edu.cads.api.hotel.services.CidadeService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -34,6 +31,9 @@ public class CidadeController {
         )).toList();
         return ResponseEntity.ok(cidades);
     }
+
+    @PostMapping
+    public ResponseEntity<CidadeDto> create(@Valid )
 
 
 }
