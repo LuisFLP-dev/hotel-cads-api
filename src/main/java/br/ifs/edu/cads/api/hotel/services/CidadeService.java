@@ -15,10 +15,11 @@ import java.util.Optional;
 public class CidadeService {
 
     private final CidadeRepository cidadeRepository;
-    private final EstadoRepository estadoRepository = null;
+    private final EstadoRepository estadoRepository;
 
-    public CidadeService(CidadeRepository cidadeRepository) {
+    public CidadeService(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
         this.cidadeRepository = cidadeRepository;
+        this.estadoRepository = estadoRepository;
     }
 
     private CidadeDto toDto(Cidade cidade) {
@@ -59,6 +60,9 @@ public class CidadeService {
         Cidade cidade = new Cidade();
         cidade.setIdCidade(cidadeDto.idCidade());
         cidade.setNomeCidade(cidadeDto.nomeCidade());
+        Estado estado = estadoRepository.findById(cidadeDto.estado())
+                .orElseThrow(() -> new RuntimeException("Estado não encontrado"));
+        cidade.setEstado(estado);
         return cidade;
 
     }
@@ -72,8 +76,16 @@ public class CidadeService {
     }
 
     @Transactional
-    public Cidade updateCidade(Long id, Cidade cidade) {
-        cidade.setIdCidade(id);
-        return cidadeRepository.save(cidade);
+    public CidadeDto updateCidade(Long id, CidadeDto cidadeDto) {
+        Cidade cidade = cidadeRepository.findById(id).orElseThrow(() -> new RuntimeException("Cidade não encontrada"));
+        cidade.setNomeCidade(cidadeDto.nomeCidade());
+
+        if (cidadeDto.estado() != null){
+            Estado estado = estadoRepository.findById(cidadeDto.estado()).orElseThrow(() -> new RuntimeException("Estado não encontrado"));
+            cidade.setEstado(estado);
+        }
+
+        Cidade cidadeAtualizada = cidadeRepository.save(cidade);
+        return toDto(cidadeAtualizada);
     }
 }

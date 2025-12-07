@@ -13,8 +13,8 @@ public class Cidade {
     @Column(name = "nomeCidade", nullable = false, length = 255)
     private String nomeCidade;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = {CascadeType.MERGE, CascadeType.PERSIST}, optional = true)
-    @JoinColumn(name = "idEstado", unique = true)
+    @ManyToOne(fetch = FetchType.LAZY, optional = true)
+    @JoinColumn(name = "idEstado",nullable = false)
     private Estado estado;
 
     public Cidade(Long idCidade, String nomeCidade, Estado estado) {
