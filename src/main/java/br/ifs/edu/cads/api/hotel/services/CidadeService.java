@@ -70,8 +70,8 @@ public class CidadeService {
     @Transactional
     public CidadeDto save(CidadeDto cidadeDto) {
         Cidade cidade = fromDto(cidadeDto);
-        Cidade SaveCidade = cidadeRepository.save(cidade);
-        return toDto(SaveCidade);
+        Cidade cidadeSalva = cidadeRepository.save(cidade);
+        return toDto(cidadeSalva);
 
     }
 
@@ -80,7 +80,7 @@ public class CidadeService {
         Cidade cidade = cidadeRepository.findById(id).orElseThrow(() -> new RuntimeException("Cidade não encontrada"));
         cidade.setNomeCidade(cidadeDto.nomeCidade());
 
-        if (cidadeDto.estado() != null){
+        if (cidadeDto.estado() != null) {
             Estado estado = estadoRepository.findById(cidadeDto.estado()).orElseThrow(() -> new RuntimeException("Estado não encontrado"));
             cidade.setEstado(estado);
         }
