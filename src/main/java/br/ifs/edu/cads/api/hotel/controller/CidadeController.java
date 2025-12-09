@@ -1,6 +1,7 @@
 package br.ifs.edu.cads.api.hotel.controller;
 
 import br.ifs.edu.cads.api.hotel.dto.CidadeDto;
+import br.ifs.edu.cads.api.hotel.dto.CidadeDtoRead;
 import br.ifs.edu.cads.api.hotel.entity.Cidade;
 import br.ifs.edu.cads.api.hotel.services.CidadeService;
 import jakarta.validation.Valid;
@@ -33,20 +34,20 @@ public class CidadeController {
     }
 
     @GetMapping("/")
-    public ResponseEntity<List<CidadeDto>> getAll() {
-        List<CidadeDto> cidades = cidadeService.listAll().stream().map(c -> new CidadeDto(
-                c.getIdCidade(), c.getNomeCidade(), c.getEstado().getidEstado()
+    public ResponseEntity<List<CidadeDtoRead>> getAll() {
+        List<CidadeDtoRead> cidades = cidadeService.listAll().stream().map(c -> new CidadeDtoRead(
+                c.getIdCidade(), c.getNomeCidade(), c.getEstado().getUf()
         )).toList();
         return ResponseEntity.ok(cidades);
     }
 
-    @GetMapping("/cidades/f_Estados/{idEstado}")
-    public ResponseEntity<List<CidadeDto>> getByEstado(@PathVariable Long idEstado) {
-        List<CidadeDto> cidades = cidadeService.listByEstado(idEstado).stream().
-                map(c -> new CidadeDto(
+    @GetMapping("/f_Estados/{idEstado}")
+    public ResponseEntity<List<CidadeDtoRead>> getByEstado(@PathVariable Long idEstado) {
+        List<CidadeDtoRead> cidades = cidadeService.listByEstado(idEstado).stream().
+                map(c -> new CidadeDtoRead(
                         c.getIdCidade(),
                         c.getNomeCidade(),
-                        c.getEstado().getidEstado()
+                        c.getEstado().getUf()
                 )).toList();
         return ResponseEntity.ok(cidades);
     }
