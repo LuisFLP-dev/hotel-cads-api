@@ -1,7 +1,11 @@
 package br.ifs.edu.cads.api.hotel.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "estado")
@@ -14,6 +18,9 @@ public class Estado {
     @Column(name = "uf", nullable = false, length = 2)
     private String uf;
 
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Cidade> cidades = new ArrayList<>();
 
     public Estado(String uf) {
         this.uf = uf;

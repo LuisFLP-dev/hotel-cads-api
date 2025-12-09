@@ -25,6 +25,7 @@ public class CidadeController {
         CidadeDto cidadeDto = cidadeService.findById(id);
         return ResponseEntity.ok(cidadeDto);
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<CidadeDto> delete(@PathVariable Long id) {
         cidadeService.delete(id);
@@ -36,6 +37,17 @@ public class CidadeController {
         List<CidadeDto> cidades = cidadeService.listAll().stream().map(c -> new CidadeDto(
                 c.getIdCidade(), c.getNomeCidade(), c.getEstado().getidEstado()
         )).toList();
+        return ResponseEntity.ok(cidades);
+    }
+
+    @GetMapping("/cidades/f_Estados/{idEstado}")
+    public ResponseEntity<List<CidadeDto>> getByEstado(@PathVariable Long idEstado) {
+        List<CidadeDto> cidades = cidadeService.listByEstado(idEstado).stream().
+                map(c -> new CidadeDto(
+                        c.getIdCidade(),
+                        c.getNomeCidade(),
+                        c.getEstado().getidEstado()
+                )).toList();
         return ResponseEntity.ok(cidades);
     }
 

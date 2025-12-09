@@ -56,6 +56,13 @@ public class CidadeService {
         return cidadeRepository.findAll();
     }
 
+    public List<Cidade> listByEstado(Long idEstado){
+        estadoRepository.findById(idEstado).orElseThrow(() -> new RuntimeException("Estado nao encontrado"));
+
+        return cidadeRepository.findByEstado_IdEstado(idEstado);
+    }
+
+
     private Cidade fromDto(CidadeDto cidadeDto) {
         Cidade cidade = new Cidade();
         cidade.setIdCidade(cidadeDto.idCidade());
