@@ -18,7 +18,7 @@ public class Estado {
     @Column(name = "uf", nullable = false, length = 2)
     private String uf;
 
-    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "estado", fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
     @JsonIgnore
     private List<Cidade> cidades = new ArrayList<>();
 
