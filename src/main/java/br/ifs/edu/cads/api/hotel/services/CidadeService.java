@@ -37,18 +37,19 @@ public class CidadeService {
         Optional<Cidade> cidade = cidadeRepository.findById(id);
 
         CidadeDto cidadeDto = null;
-        cidade.get();
-        cidadeDto = toDto(cidade.get());
-
+        if (cidade.get() != null) {
+            cidadeDto = toDto(cidade.get());
+        }
         return cidadeDto;
     }
 
     public CidadeDto delete(Long id) {
         Optional<Cidade> cidadeDeletada = cidadeRepository.findById(id);
         CidadeDto cidadeDto = null;
-        cidadeDeletada.get();
-        cidadeDto = toDto(cidadeDeletada.get());
-        cidadeRepository.deleteById(id);
+        if (cidadeDeletada.get() != null) {
+            cidadeDto = toDto(cidadeDeletada.get());
+            cidadeRepository.deleteById(id);
+        }
         return cidadeDto;
     }
 
@@ -56,7 +57,7 @@ public class CidadeService {
         return cidadeRepository.findAll();
     }
 
-    public List<Cidade> listByEstado(Long idEstado){
+    public List<Cidade> listByEstado(Long idEstado) {
         estadoRepository.findById(idEstado).orElseThrow(() -> new RuntimeException("Estado nao encontrado"));
 
         return cidadeRepository.findByEstado_IdEstado(idEstado);

@@ -1,5 +1,13 @@
 package br.ifs.edu.cads.api.hotel.dto;
 
 
-public record EstadoDto(Long idEstado,String uf) {
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+
+public record EstadoDto(
+        Long idEstado,
+
+        @NotBlank(message = "Nome da UF é obrigatorio")
+        @Size(max = 2, message = "O nome da UF nao deve possuir mais de 2 caracteres.")
+        String uf) {
 }

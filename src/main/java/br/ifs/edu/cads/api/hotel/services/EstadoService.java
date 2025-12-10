@@ -16,11 +16,10 @@ import java.util.Optional;
 @Service
 public class EstadoService {
 
-    private final CidadeRepository cidadeRepository;
+
     private final EstadoRepository estadoRepository;
 
-    public EstadoService(CidadeRepository cidadeRepository, EstadoRepository estadoRepository) {
-        this.cidadeRepository = cidadeRepository;
+    public EstadoService(EstadoRepository estadoRepository) {
         this.estadoRepository = estadoRepository;
     }
 
@@ -32,8 +31,9 @@ public class EstadoService {
         Optional<Estado> estado = estadoRepository.findById(id);
 
         EstadoDto estadoDto = null;
-        estado.get();
-        estadoDto = toDto(estado.get());
+        if (estado.get() != null) {
+            estadoDto = toDto(estado.get());
+        }
 
         return estadoDto;
     }
@@ -41,9 +41,11 @@ public class EstadoService {
     public EstadoDto delete(Long id) {
         Optional<Estado> estadoDeletado = estadoRepository.findById(id);
         EstadoDto estadoDto = null;
-        estadoDeletado.get();
-        estadoDto = toDto(estadoDeletado.get());
-        estadoRepository.deleteById(id);
+        if (estadoDeletado.get() != null) {
+            estadoDto = toDto(estadoDeletado.get());
+            estadoRepository.deleteById(id);
+        }
+
         return estadoDto;
     }
 
@@ -51,23 +53,22 @@ public class EstadoService {
         return estadoRepository.findAll();
     }
 
-    private Estado fromDto(EstadoDto estadoDto){
+    private Estado fromDto(EstadoDtoSemId estadoDtoSemId) {
         Estado estado = new Estado();
-        estado.setidEstado(estadoDto.idEstado());
-        estado.setUf(estadoDto.uf());
+        estado.setUf(estadoDtoSemId.uf());
         return estado;
     }
 
     @Transactional
-    public EstadoDto save(EstadoDtoSemId estadoDtoSemId){
-        Estado estado = new Estado();
+    public EstadoDto save(EstadoDtoSemId estadoDtoSemId) {
+        Estado estado = fromDto(estadoDtoSemId);
         estado.setUf(estadoDtoSemId.uf());
         Estado estadoSalvo = estadoRepository.save(estado);
         return toDto(estadoSalvo);
     }
 
     @Transactional
-    public EstadoDto updateEstado(Long id, EstadoDto estadoDto){
+    public EstadoDto updateEstado(Long id, EstadoDto estadoDto) {
         Estado estado = estadoRepository.findById(id).orElseThrow(() -> new RuntimeException("Estado não encontrado"));
         estado.setUf(estadoDto.uf());
 
